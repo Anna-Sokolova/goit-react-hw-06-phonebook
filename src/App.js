@@ -10,113 +10,65 @@ import ContactList from './components/ContactList';
 import Filter from './components/Filter';
 
 class App extends Component {
-  state = {
-    contacts: [],
-    filter: '',
-  };
+  // componentDidMount() {
+  //   //получаем данные с LS при создании компонента
+  //   const savedContacts = localStorage.getItem('contacts');
+  //   const parsedContacts = JSON.parse(savedContacts);
 
-  static defaultProps = {
-    contacts: [],
-    filter: '',
-  };
+  //   // делаем проверку на null и перезаписываем state
+  //   if (parsedContacts) {
+  //     this.setState({
+  //       contacts: parsedContacts,
+  //     });
+  //   }
+  // }
 
-  static propTypes = {
-    contacts: PropTypes.arrayOf(PropTypes.object),
-    filter: PropTypes.string,
-  };
+  // componentDidUpdate(prevState) {
+  //   // console.log('Текущее состояние ', prevState);
+  //   // console.log('Начальное состояние ', this.state);
 
-  componentDidMount() {
-    //получаем данные с LS при создании компонента
-    const savedContacts = localStorage.getItem('contacts');
-    const parsedContacts = JSON.parse(savedContacts);
-
-    // делаем проверку на null и перезаписываем state
-    if (parsedContacts) {
-      this.setState({
-        contacts: parsedContacts,
-      });
-    }
-  }
-
-  componentDidUpdate(prevState) {
-    // console.log('Текущее состояние ', prevState);
-    // console.log('Начальное состояние ', this.state);
-
-    //делаем проверку на неравенство данных перед сохранением в LS
-    if (this.state.contacts !== prevState.contacts) {
-      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
-    }
-  }
+  //   //делаем проверку на неравенство данных перед сохранением в LS
+  //   if (this.state.contacts !== prevState.contacts) {
+  //     localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+  //   }
+  // }
 
   //метод для добавления данных в разметку при получении данных с component ContactForm в Арр
-  addContact = data => {
-    // console.log(data.name);
-    const findName = this.state.contacts.find(
-      contact => contact.name === data.name,
-    );
+  // addContact = data => {
+  //   // console.log(data.name);
+  //   const findName = this.state.contacts.find(
+  //     contact => contact.name === data.name,
+  //   );
 
-    if (findName) {
-      alert(`${data.name} is already in contacts!`);
-      return;
-    }
+  //   if (findName) {
+  //     alert(`${data.name} is already in contacts!`);
+  //     return;
+  //   }
 
-    const newContactDate = {
-      id: shortid.generate(),
-      name: data.name,
-      number: data.number,
-    };
-    // console.log(newContactDate);
+  //   const newContactDate = {
+  //     id: shortid.generate(),
+  //     name: data.name,
+  //     number: data.number,
+  //   };
+  //   // console.log(newContactDate);
 
-    this.setState(prevState => ({
-      contacts: [newContactDate, ...prevState.contacts],
-    }));
-  };
-
-  //метод для изменения данных в state по вводу в фильтр
-  changeFilter = e => {
-    this.setState({
-      filter: e.currentTarget.value,
-    });
-  };
-
-  //метод для фильтрации массива по имени
-  getFilteredByName = () => {
-    const { contacts, filter } = this.state;
-
-    const normalizedFilter = filter.toLowerCase();
-    return contacts.filter(({ name }) =>
-      name.toLowerCase().includes(normalizedFilter),
-    );
-  };
-
-  //метод для удаления контакта по кнопке Удалить
-  deleteContact = contactId => {
-    this.setState(prevState => ({
-      contacts: prevState.contacts.filter(contact => contact.id !== contactId),
-    }));
-  };
+  //   this.setState(prevState => ({
+  //     contacts: [newContactDate, ...prevState.contacts],
+  //   }));
+  // };
 
   render() {
-    const { contacts, filter } = this.state; // деструкт свойств обекта state
-
-    const filteredContactByName = this.getFilteredByName();
-
     return (
       <div className="container">
-        <Title title={'Phonebook'} />
-        <ContactForm onSubmit={this.addContact} />
+        <Title title="Phonebook" />
+        <ContactForm />
 
         <div className="container">
-          {contacts.length > 0 && (
-            <>
-              <Title title={'Contacts'} />
-              <Filter valueFilter={filter} onChangeFilter={this.changeFilter} />
-              <ContactList
-                contacts={filteredContactByName}
-                onDeleteContact={this.deleteContact}
-              />
-            </>
-          )}
+          <div>
+            <Title title="Contacts" />
+            <Filter />
+            <ContactList />
+          </div>
         </div>
       </div>
     );
