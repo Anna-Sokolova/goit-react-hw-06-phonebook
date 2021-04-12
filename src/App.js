@@ -1,7 +1,4 @@
-//Libs
 import { Component } from 'react';
-
-//Components
 import Title from './components/Title';
 import ContactForm from './components/ContactForm';
 import ContactList from './components/ContactList';
