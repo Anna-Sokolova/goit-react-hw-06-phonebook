@@ -13,11 +13,14 @@ class ContactForm extends Component {
   static defaultProps = {
     name: '',
     number: '',
+    state: [],
   };
 
   static propTypes = {
     name: PropTypes.string,
     number: PropTypes.string,
+    state: PropTypes.array,
+    onSubmit: PropTypes.func.isRequired,
   };
 
   handleInputChange = e => {
