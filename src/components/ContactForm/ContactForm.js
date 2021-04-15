@@ -32,16 +32,17 @@ class ContactForm extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    // console.log(this.state);
+    // console.log('отправляем submit ', this.state);
 
     if (this.state.name.trim() === '' || this.state.number.trim() === '') {
       alert('Please enter valid information!');
       this.reset();
       return;
     }
-    // console.log(this.props.contacts.items);
 
-    const findName = this.props.contacts.items.find(
+    // console.log('получаем props с стора', this.props.contacts);
+
+    const findName = this.props.contacts.find(
       contact => contact.name.toLowerCase() === this.state.name.toLowerCase(),
     );
 
@@ -50,6 +51,7 @@ class ContactForm extends Component {
       this.reset();
       return;
     }
+
     this.props.onSubmit({ ...this.state });
     this.reset();
   };
@@ -100,7 +102,9 @@ class ContactForm extends Component {
   }
 }
 
-const mapStateToProps = state => state;
+const mapStateToProps = state => ({
+  contacts: state.contacts.items,
+});
 
 const mapDispatchToProps = dispatch => ({
   onSubmit: data => dispatch(actionsContact.addContact(data)),
